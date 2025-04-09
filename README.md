@@ -1,9 +1,9 @@
 # Processo Seletivo Simplificado SEPLAG-MT (PSS 02/2025)
 
-## Numero da Inscricao: 7770
-## Nome: Sarylson Marques
-## Email: sarylsonmarques@gmail.com
-## Analista de Sistema Sênior
+**Numero da Inscricao: 7770**
+**Nome: Sarylson Marques**
+**Email: sarylsonmarques@gmail.com**
+**Analista de Sistema Sênior**
 
 ### Visão Geral
 Este projeto foi desenvolvido como parte do Processo Seletivo Simplificado (PSS 02/2025/SEPLAG-MT). Ele consiste na implementação de uma API REST para gerenciamento de dados de servidores, unidades e lotações, conforme especificado no diagrama de banco de dados fornecido.
