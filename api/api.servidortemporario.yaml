@@ -1,0 +1,507 @@
+openapi: 3.0.0
+info:
+  title: "servidortemporario"
+  description: "api_servidortemporario"
+  version: "20250409174648"
+servers:
+  - url: http://localhost:8080/seplagmt/api/servidor/temporario
+paths:
+  /novo:
+    post:
+      tags:
+        - api  
+      operationId: "api.servidortemporario.ServidorTemporarioIncluir"
+      summary: "Incluir Servidor Temporário"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/api.ServidorTemporarioSDT"
+      
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.RetornoAPISDT"  
+
+        404:
+          description: "Not found"
+
+  /alterar/{Id}:
+    put:
+      tags:
+        - api  
+      operationId: "api.servidortemporario.ServidorTemporarioAlterar"
+      summary: "Alterar Servidor Temporário"
+      parameters:
+        - name: "Id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServidorTemporarioAlterarInput"
+      
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.RetornoAPISDT"  
+
+        404:
+          description: "Not found"
+
+  /obter/{Id}:
+    get:
+      tags:
+        - api  
+      operationId: "api.servidortemporario.ServidorTemporarioObter"
+      summary: "Obter Servidor Temporário por ID"
+      parameters:
+        - name: "Id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.RetornoAPISDT"  
+
+        404:
+          description: "Not found"
+
+  /lista:
+    get:
+      tags:
+        - api  
+      operationId: "api.servidortemporario.ServidorTemporarioListaObter"
+      summary: "Realizar consulta de Servidor Temporário por Paginação"
+      parameters:
+        - name: "Pag"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "Limit"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+      
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.RetornoAPISDT"  
+
+        404:
+          description: "Not found"
+
+components:
+  schemas:
+    ServidorTemporarioIncluirInput:  
+      properties:
+        ServidorTemporario:
+          description: "Servidor Temporario SDT"
+          $ref: "#/components/schemas/api.ServidorTemporarioSDT"
+
+    ServidorTemporarioAlterarInput:  
+      properties:
+        ServidorTemporario:
+          description: "Servidor Temporario SDT"
+          $ref: "#/components/schemas/api.ServidorTemporarioSDT"
+
+
+  
+    api.ServidorTemporarioSDT:
+      properties:
+        nome:
+          description: "Nome"
+          type: "string"
+        data_nascimento:
+          description: "Data de Nascimento"
+          type: "string"
+          format: "date"
+        sexo:
+          description: "Sexo"
+          type: "string"
+        mae:
+          description: "Mãe"
+          type: "string"
+        pai:
+          description: "Pai"
+          type: "string"
+        data_admissao:
+          description: "Data de Admissão"
+          type: "string"
+          format: "date"
+        data_demissao:
+          description: "Data Demissão"
+          type: "string"
+          format: "date"
+        endereco:
+          description: "Endereco SDT"
+          $ref: "#/components/schemas/api.EnderecoSDT"
+
+
+
+    api.RetornoAPISDT:
+      properties:
+        LotacaoId:
+          description: "Lotacao Id"
+          type: "integer"
+          format: "int64"
+        PessoaId:
+          description: "Pessoa Id"
+          type: "integer"
+          format: "int64"
+        UnidadeId:
+          description: "Unidade Id"
+          type: "integer"
+          format: "int64"
+        EnderecoId:
+          description: "Endereco Id"
+          type: "integer"
+          format: "int64"
+        Messages:
+          description: "Messages"
+          type: array
+          items:
+            $ref: "#/components/schemas/GeneXus.Common.Messages_Message"
+        ServidorEfetivo:
+          description: "Servidor Efetivo Ret SDT"
+          $ref: "#/components/schemas/api.ServidorEfetivoRetSDT"
+        ServidorTemporario:
+          description: "Servidor Temporario Ret SDT"
+          $ref: "#/components/schemas/api.ServidorTemporarioRetSDT"
+        Unidade:
+          description: "Unidade Retorno SDT"
+          $ref: "#/components/schemas/api.UnidadeRetornoSDT"
+        Lotacao:
+          description: "Lotacao Retorno SDT"
+          $ref: "#/components/schemas/api.LotacaoRetornoSDT"
+        FotoId:
+          description: "Identificador"
+          type: "integer"
+          format: "int64"
+        FotoHash:
+          description: "Hash"
+          type: "string"
+        LotacaoLista:
+          description: "Lotacao Retorno SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.LotacaoRetornoSDT"
+        UnidadeLista:
+          description: "Unidade Retorno SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.UnidadeRetornoSDT"
+        ServidorEfetivoLista:
+          description: "Servidor Efetivo Ret SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.ServidorEfetivoRetSDT"
+        ServidorTemporarioLista:
+          description: "Servidor Temporario Ret SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.ServidorTemporarioRetSDT"
+        ServidorEfetivoUnidadeLista:
+          description: "Servidor Efetivo Unidade Lista SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.ServidorEfetivoUnidadeListaSDT"
+        ServidorEfetivoEnderecoLista:
+          description: "Servidor Efetivo Endereco Lista SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.ServidorEfetivoEnderecoListaSDT"
+        FotoLista:
+          description: "Foto Pessoa Ret SDT"
+          type: array
+          items:
+            $ref: "#/components/schemas/api.FotoPessoaRetSDT"
+
+
+
+    api.EnderecoSDT:
+      properties:
+        tipo_logradouro:
+          description: "Tipo do logradouro"
+          type: "string"
+        logradouro:
+          description: "Logradouro"
+          type: "string"
+        numero:
+          description: "Número"
+          type: "integer"
+          format: "int32"
+        bairro:
+          description: "Bairro"
+          type: "string"
+        cidade:
+          description: "Nome da Cidade"
+          type: "string"
+        uf:
+          description: "Uf da Cidade"
+          type: "string"
+
+
+
+    api.FotoPessoaRetSDT:
+      properties:
+        FotoUrl:
+          description: "Foto Url"
+          type: "string"
+
+
+
+    api.LotacaoRetornoSDT:
+      properties:
+        id:
+          description: "id"
+          type: "integer"
+          format: "int64"
+        id_endereco:
+          description: "id_endereco"
+          type: "integer"
+          format: "int64"
+        id_cidade:
+          description: "id_cidade"
+          type: "integer"
+          format: "int64"
+        nome_unidade:
+          description: "Nome"
+          type: "string"
+        sigla_unidade:
+          description: "Sigla"
+          type: "string"
+        tipo_logradouro:
+          description: "Tipo do logradouro"
+          type: "string"
+        logradouro:
+          description: "Logradouro"
+          type: "string"
+        numero:
+          description: "Número"
+          type: "integer"
+          format: "int32"
+        bairro:
+          description: "Bairro"
+          type: "string"
+        cidade:
+          description: "Nome da Cidade"
+          type: "string"
+        uf:
+          description: "Uf da Cidade"
+          type: "string"
+        data_lotacao:
+          description: "Data de Lotação"
+          type: "string"
+          format: "date"
+        data_remocao:
+          description: "Data de Remoção"
+          type: "string"
+          format: "date"
+        portaria:
+          description: "Portaria"
+          type: "string"
+
+
+
+    api.ServidorEfetivoEnderecoListaSDT:
+      properties:
+        pes_id:
+          description: "Id da pessoa"
+          type: "integer"
+          format: "int64"
+        pes_nome:
+          description: "Nome da pessoa"
+          type: "string"
+        end_tipo_logradouro:
+          description: "Tipo do logradouro"
+          type: "string"
+        end_logradouro:
+          description: "Logradouro"
+          type: "string"
+        end_numero:
+          description: "Número"
+          type: "integer"
+          format: "int32"
+        end_bairro:
+          description: "Bairro"
+          type: "string"
+        cid_nome:
+          description: "Nome da Cidade"
+          type: "string"
+        cid_uf:
+          description: "Uf da Cidade"
+          type: "string"
+
+
+
+    api.ServidorEfetivoRetSDT:
+      properties:
+        id:
+          description: "Id da pessoa"
+          type: "integer"
+          format: "int64"
+        nome:
+          description: "Nome"
+          type: "string"
+        data_nascimento:
+          description: "Data de Nascimento"
+          type: "string"
+          format: "date"
+        sexo:
+          description: "Sexo"
+          type: "string"
+        mae:
+          description: "Mãe"
+          type: "string"
+        pai:
+          description: "Pai"
+          type: "string"
+        matricula:
+          description: "Matrícula"
+          type: "string"
+        endereco:
+          description: "Endereco SDT"
+          $ref: "#/components/schemas/api.EnderecoSDT"
+
+
+
+    api.ServidorEfetivoUnidadeListaSDT:
+      properties:
+        Nome:
+          description: "Nome da pessoa"
+          type: "string"
+        Idade:
+          description: "Idade"
+          type: "integer"
+          format: "int32"
+        Unidade_Lotacao:
+          description: "Nome da unidade"
+          type: "string"
+        Fotografia:
+          description: "Fotografia"
+          type: "string"
+
+
+
+    api.ServidorTemporarioRetSDT:
+      properties:
+        id:
+          description: "Id da pessoa"
+          type: "integer"
+          format: "int64"
+        nome:
+          description: "Nome"
+          type: "string"
+        data_nascimento:
+          description: "Data de Nascimento"
+          type: "string"
+          format: "date"
+        sexo:
+          description: "Sexo"
+          type: "string"
+        mae:
+          description: "Mãe"
+          type: "string"
+        pai:
+          description: "Pai"
+          type: "string"
+        data_admissao:
+          description: "Data de Admissão"
+          type: "string"
+          format: "date"
+        data_demissao:
+          description: "Data Demissão"
+          type: "string"
+          format: "date"
+        endereco:
+          description: "Endereco SDT"
+          $ref: "#/components/schemas/api.EnderecoSDT"
+
+
+
+    api.UnidadeRetornoSDT:
+      properties:
+        id:
+          description: "id"
+          type: "integer"
+          format: "int64"
+        id_endereco:
+          description: "id_endereco"
+          type: "integer"
+          format: "int64"
+        id_cidade:
+          description: "id_cidade"
+          type: "integer"
+          format: "int64"
+        nome:
+          description: "Nome"
+          type: "string"
+        sigla:
+          description: "Sigla"
+          type: "string"
+        tipo_logradouro:
+          description: "Tipo do logradouro"
+          type: "string"
+        logradouro:
+          description: "Logradouro"
+          type: "string"
+        numero:
+          description: "Número"
+          type: "integer"
+          format: "int32"
+        bairro:
+          description: "Bairro"
+          type: "string"
+        cidade:
+          description: "Nome da Cidade"
+          type: "string"
+        uf:
+          description: "Uf da Cidade"
+          type: "string"
+
+
+
+    GeneXus.Common.Messages_Message:
+      properties:
+        Id:
+          description: "Id"
+          type: "string"
+        Type:
+          description: "Type"
+          type: "integer"
+          format: "int32"
+        Description:
+          description: "Description"
+          type: "string"
+
+
+
+ 

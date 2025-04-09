@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+      - minio
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: bdSeplagMT
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_SERVER_URL=http://localhost:9000
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - app-network
+    volumes:
+      - ./minio:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://minio:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    command: server /data --console-address ":9001"
+  createbuckets:
+    image: minio/mc
+    container_name: minio-buckets
+    depends_on:
+      minio:
+        condition: service_healthy
+    networks:
+      - app-network
+    entrypoint: ["/bin/sh", "-c", "sleep 5 && mc alias set myminio http://minio:9000 minioadmin minioadmin && (mc ls myminio/bucketfotos || mc mb myminio/bucketfotos) && mc policy set public myminio/bucketfotos"]
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  pgdata:
+  minio-data:

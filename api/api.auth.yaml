@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+  title: "auth"
+  description: "auth"
+  version: "20250409174648"
+servers:
+  - url: http://localhost:8080/seplagmt/api/auth
+paths:
+  /login:
+    post:
+      tags:
+        - api  
+      operationId: "api.auth.Token"
+      summary: "Gerar token"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenInput"
+      
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.AccessTokenSDT"  
+
+        404:
+          description: "Not found"
+
+components:
+  schemas:
+    TokenInput:  
+      properties:
+        login:
+          type: "string"
+        Senha:
+          type: "string"
+  
+    api.AccessTokenSDT:
+      properties:
+        access_token:
+          description: "access_token"
+          type: "string"
+        token_type:
+          description: "token_type"
+          type: "string"
+        expires_in:
+          description: "expires_in"
+          type: "integer"
+          format: "int32"
+        refresh_token:
+          description: "refresh_token"
+          type: "string"
+        scope:
+          description: "scope"
+          type: "string"
+        user_guid:
+          description: "user_guid"
+          type: "string"
+          format: "uuid"
+        MessagesError:
+          description: "Messages"
+          type: array
+          items:
+            $ref: "#/components/schemas/GeneXus.Common.Messages_Message"
+
+
+
+    GeneXus.Common.Messages_Message:
+      properties:
+        Id:
+          description: "Id"
+          type: "string"
+        Type:
+          description: "Type"
+          type: "integer"
+          format: "int32"
+        Description:
+          description: "Description"
+          type: "string"
+
+
+
+ 
