@@ -1,6 +1,6 @@
 # Processo Seletivo Simplificado SEPLAG-MT (PSS 02/2025)
 
-- Numero da Inscricao: 7770
+- Numero da Inscricao: 7770 e 10083
 - Nome: Sarylson Marques
 - Email: sarylsonmarques@gmail.com
 - Analista de Sistema Sênior
